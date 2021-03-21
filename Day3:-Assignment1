@@ -1,0 +1,126 @@
+package week2.day1;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class CreateAccount {
+	
+
+	public static void main(String[] args) {
+		
+		// setup the chromedriver using Webdrivermanager software.
+		WebDriverManager.chromedriver().setup();
+		//launch chrome browser(class name--> Chromedriver)
+		ChromeDriver driver=new ChromeDriver();
+		//load url
+		driver.get("http://leaftaps.com/opentaps");
+		//maximize browser
+		driver.manage().window().maximize();
+		//find the user name and type the vanlue(DemoSalesManager)
+		driver.findElement(By.id("username")).sendKeys("DemoSalesManager");
+		//find the password and type value(crmsfa)
+		driver.findElement(By.id("password")).sendKeys("crmsfa");
+		//find the login button and click.
+		driver.findElement(By.className("decorativeSubmit")).click();
+		//verify the title
+		String title = driver.getTitle();
+		System.out.println(title);
+		//click CRM/SFA link
+		
+		driver.findElementByLinkText("CRM/SFA").click();	
+		driver.findElementByLinkText("Create Account").click();
+		driver.findElementById("accountName").sendKeys("Test");
+		driver.findElementById("groupNameLocal").sendKeys("Arya");
+		driver.findElementById("annualRevenue").sendKeys("1000");
+		
+		WebElement dropdowm=driver.findElementByName("industryEnumId");
+		Select dd=new Select(dropdowm);
+		dd.selectByValue("IND_SOFTWARE");
+		
+		WebElement dropdowm1=driver.findElementByName("ownershipEnumId");
+		Select dd2=new Select(dropdowm1);
+		dd2.selectByValue("OWN_PROPRIETOR");
+		
+		driver.findElementById("sicCode").sendKeys("IFC005");
+		
+		WebElement dropdowm3=driver.findElementByName("dataSourceId");
+		Select dd3=new Select(dropdowm3);
+		dd3.selectByValue("LEAD_COLDCALL");
+		//initialTeamPartyId
+		WebElement dropdowm4=driver.findElementByName("initialTeamPartyId");
+		Select dd4=new Select(dropdowm4);
+		dd4.selectByValue("DemoSalesTeam1");
+		
+		driver.findElementByName("description").sendKeys("test description");
+		driver.findElementByName("importantNote").sendKeys("imp test description");
+	
+		driver.findElementByName("parentPartyId").sendKeys("democlass1");
+		driver.findElementById("officeSiteName").sendKeys("Google");
+		
+		WebElement dropdowm5=driver.findElementByName("currencyUomId");
+		Select dd5=new Select(dropdowm5);
+		dd5.selectByValue("INR");
+
+		driver.findElementById("numberEmployees").sendKeys("100000");
+		driver.findElementById("tickerSymbol").sendKeys("APDR");
+		
+		WebElement dropdowm6=driver.findElementByName("marketingCampaignId");
+		Select dd6=new Select(dropdowm6);
+		dd6.selectByValue("CATRQ_CAMPAIGNS");
+		
+		// Contact Information
+		
+		driver.findElementById("primaryPhoneCountryCode").sendKeys("+91");
+		driver.findElementById("primaryPhoneAreaCode").sendKeys("0495");
+		driver.findElementById("primaryPhoneExtension").sendKeys("2298440");
+		driver.findElementById("primaryPhoneNumber").sendKeys("2298640");
+		driver.findElementById("primaryPhoneAskForName").sendKeys("Arya");
+		driver.findElementById("primaryWebUrl").sendKeys("www.google.com");
+		driver.findElementById("primaryEmail").sendKeys("arya@gmail.com");
+		
+		// Primary Address
+		
+		driver.findElementById("generalToName").sendKeys("Arya Vishnu Ram");
+		driver.findElementById("generalAddress1").sendKeys("A2 Agp sreerangam");
+		driver.findElementById("generalAttnName").sendKeys("Anil A V");
+		driver.findElementById("generalAddress2").sendKeys("Park avenew 1st street chennai");
+		driver.findElementById("generalCity").sendKeys("chennai");
+		driver.findElementById("generalPostalCode").sendKeys("600041");
+		driver.findElementById("generalPostalCodeExt").sendKeys("41");
+		
+		WebElement dropdowm7=driver.findElementByName("generalCountryGeoId");
+		Select dd7=new Select(dropdowm7);
+		dd7.selectByValue("IND");
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		WebElement dropdowm8=driver.findElementById("generalStateProvinceGeoId");
+		Select dd8=new Select(dropdowm8);
+		dd8.selectByValue("IN-KL");
+		
+		driver.findElement(By.className("smallSubmit")).click();
+		//print the new title
+		String titlename=driver.getTitle();
+		System.out.println(titlename);
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
+
+}
+}
