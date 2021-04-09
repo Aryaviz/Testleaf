@@ -1,0 +1,23 @@
+package week3.day2;
+
+public class Students {
+
+	public void  getStudentInfo(int id)
+	{
+		
+	}
+	
+	public void  getStudentInfo(int id, String name, String email, int phone) {
+		
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Students stud = new Students();
+		stud.getStudentInfo(234);
+		stud.getStudentInfo(234, "arya", "arya13dec@gmail.com", 99985858);
+		System.out.println("displayed");
+	}
+
+}
