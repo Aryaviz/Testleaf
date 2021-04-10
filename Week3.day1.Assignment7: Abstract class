@@ -1,0 +1,32 @@
+
+public abstract class University {
+	
+	
+public void pg() {
+	
+	System.out.println("PG");
+	
+}
+
+public abstract void ug() ;
+}
+*******************************************
+
+public class College extends University {
+
+
+
+	@Override
+	public void ug() {
+		// TODO Auto-generated method stub
+		System.out.println("UG");
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		College clg =new College();
+		clg.pg();
+		clg.ug();
+		
+	}
+}
