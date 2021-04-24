@@ -1,0 +1,72 @@
+package week5.day1;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class BaseClass {
+	public  ChromeDriver driver;
+	@Parameters({"url","username","password"})
+	@BeforeMethod
+	public void precondition(String url,String uname,String password) {
+		WebDriverManager.chromedriver().setup();
+		 driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get(url);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.findElement(By.id("username")).sendKeys(uname);
+		driver.findElement(By.id("password")).sendKeys(password);
+		driver.findElement(By.className("decorativeSubmit")).click();
+		driver.findElement(By.linkText("CRM/SFA")).click();
+		driver.findElement(By.linkText("Leads")).click();
+	}
+	@AfterMethod
+	public void postcondition() {
+driver.close();
+	}
+}
+
+
+*************************
+package week5.day2;
+
+import org.openqa.selenium.By;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class CreateLeadAssign extends BaseClass{
+
+
+	@Test(dataProvider="fetchData")
+	public void runCreateLead(String compname,String fname,String lname)  {
+		
+		driver.findElement(By.linkText("Create Lead")).click();
+		driver.findElement(By.id("createLeadForm_companyName")).sendKeys(compname);
+		driver.findElement(By.id("createLeadForm_firstName")).sendKeys(fname);
+		driver.findElement(By.id("createLeadForm_lastName")).sendKeys(lname);
+		driver.findElement(By.name("submitButton")).click();
+		
+}
+	@DataProvider(name="fetchData")
+	public String[][] sendData() {
+		String[][] data=new String[3][3];
+		data[0][0]="Test Leaf";
+		data[0][1]="Arya";
+		data[0][2]="AV";
+		
+		data[1][0]="Test Leaf";
+		data[1][1]="Anil";
+		data[1][2]="AK";
+		
+		data[2][0]="Test Leaf";
+		data[2][1]="Ram";
+		data[2][2]="T";
+		return data;
+	}
+}
