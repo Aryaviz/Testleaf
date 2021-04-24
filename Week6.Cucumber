@@ -1,0 +1,115 @@
+
+
+Feature: Login functionality for LeafTaps
+
+Background:
+Given Open the chrome browser
+And Load the application url
+
+
+Scenario Outline: TC001_Login with positive credential
+
+Given Enter the username as <username>
+And Enter the password as <password>
+When Click on Login button
+Then Homepage should be displayed
+
+Examples:
+|username|password|
+|'Demosalesmanager'|'crmsfa'|
+|'DemoCsr'|'crmsfa'|
+
+
+
+Scenario: TC002_Login with negative credential
+
+Given Enter the username as 'DemoSalesManager'
+And Enter the password as 'crmsfa123'
+When Click on Login button
+But Error message should be displayed
+
+********************************************************
+package steps;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.cucumber.java.en.But;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Login {
+	public ChromeDriver driver;
+	
+	@Given("Open the chrome browser")
+	public void openBrowser() {
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+	}
+
+	@Given("Load the application url")
+	public void loadAppUrl() {
+		driver.get("http://leaftaps.com/opentaps/control/main");
+	}
+	
+	@Given("Enter the username as {string}")
+	public void enterUsername(String username) {
+		driver.findElement(By.id("username")).sendKeys(username);
+	}
+	
+	@Given("Enter the password as {string}")
+	public void enterPassword(String password) {
+		driver.findElement(By.id("password")).sendKeys(password);
+	}
+
+	@When("Click on Login button")
+	public void clickLoginButton() {
+		driver.findElement(By.className("decorativeSubmit")).click();
+
+	}
+
+	@Then("Homepage should be displayed")
+	public void verifyHomePage() {
+		String title = driver.getTitle();
+		if(title.equals("Leaftaps - TestLeaf Automation Platform"))
+		System.out.println("Homepage is diplayed");
+
+	}
+	
+	@But("Error message should be displayed")
+	public void verifyErrorMessage() {
+		System.out.println("Error message is displayed");
+
+	}
+	
+
+}
+***********************************************
+package runner;
+
+
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
+
+@CucumberOptions(features = {"src/test/java/features"}, 
+				glue = {"steps"}, 
+				monochrome = true,
+				publish = true,
+				//tags = "@functional" //to execute all scenarios having @functional
+				//tags = "@smoke or @functional" //to execute the scenarios with @smoke or @functional
+				//tags = "@regression and @functional" //to execute the scenarios with both @regression and @functional
+				tags = "not @regression" // to execute all the test scenarios except @regression
+				
+				
+				//dryRun = true,
+				//snippets = SnippetType.CAMELCASE
+				)
+public class TestRunner extends AbstractTestNGCucumberTests{
+    
+}
