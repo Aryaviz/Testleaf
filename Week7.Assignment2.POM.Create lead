@@ -1,0 +1,144 @@
+package base;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class ProjectSpecificMethod {
+	public static ChromeDriver driver;
+	@BeforeMethod 
+	public void StatApp() {
+		WebDriverManager.chromedriver().setup();
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://leaftaps.com/opentaps/");
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		
+	}
+	
+	@AfterMethod
+	public void closeApp() {
+		driver.close();
+		
+	}
+
+}
+********************************************
+package pages;
+
+import org.openqa.selenium.By;
+
+import base.ProjectSpecificMethod;
+
+public class CreateLeadPage extends ProjectSpecificMethod {
+
+	public CreateLeadPage enterCompanyName() {
+		driver.findElement(By.id("createLeadForm_companyName")).sendKeys("companyName");
+		return this;
+	}
+		public CreateLeadPage enterFirstName() {
+			driver.findElement(By.id("createLeadForm_firstName")).sendKeys("fname");
+			return this;
+		}
+			public CreateLeadPage enterlastName() {
+				driver.findElement(By.id("createLeadForm_lastName")).sendKeys("lname");
+				return this;
+			}
+				public CreateLeadPage clickSubmitButton() {
+					driver.findElement(By.name("submitButton")).click();
+					return this;
+				}
+	
+}
+***********************************************
+package pages;
+
+import org.openqa.selenium.By;
+
+import base.ProjectSpecificMethod;
+
+public class HomePage extends ProjectSpecificMethod {
+	
+	
+	public MyHomePage clickCrmsfa() {
+		driver.findElement(By.linkText("CRM/SFA")).click();
+		return new MyHomePage();
+	}
+
+}
+******************************************************
+package pages;
+
+import org.openqa.selenium.By;
+
+import base.ProjectSpecificMethod;
+
+public class LoginPage extends ProjectSpecificMethod {
+	
+	public LoginPage enterUsername() {
+		driver.findElement(By.id("username")).sendKeys("DemoSalesManager");
+		return this;
+	}
+	public LoginPage enterPassword() {
+		driver.findElement(By.id("password")).sendKeys("crmsfa");
+		return this;
+	}
+		public HomePage clickLoginButton() {
+			driver.findElement(By.className("decorativeSubmit")).click();
+			return new HomePage();
+	}
+}
+**************************************************************
+package pages;
+
+import org.openqa.selenium.By;
+
+import base.ProjectSpecificMethod;
+
+public class MyHomePage  extends ProjectSpecificMethod{
+	
+	public  MyLeadPage clicklinkCrm() {
+		driver.findElement(By.linkText("Leads")).click();
+		return new  MyLeadPage();
+	}
+
+	
+}
+***********************************************************
+package pages;
+
+import org.openqa.selenium.By;
+
+import base.ProjectSpecificMethod;
+
+public class MyLeadPage extends ProjectSpecificMethod {
+	
+	public  CreateLeadPage clickCreateLead() {
+		driver.findElement(By.linkText("Create Lead")).click();
+		return new  CreateLeadPage();
+	
+	}
+
+}
+***********************************************************
+package testcases;
+
+import org.testng.annotations.Test;
+
+import base.ProjectSpecificMethod;
+import pages.LoginPage;
+
+public class CreateLead  extends ProjectSpecificMethod {
+	@Test
+	public void createlead()
+	{
+		new LoginPage()
+		.enterUsername().enterPassword().clickLoginButton().clickCrmsfa().clicklinkCrm().clickCreateLead();
+	}
+	
+
+}
