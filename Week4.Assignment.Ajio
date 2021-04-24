@@ -1,0 +1,64 @@
+package week4.day2;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Ajio {
+
+	/*
+ 1) Go to the URL https://www.ajio.com/shop/sale 
+2) Enter Bags in the Search field and Select Women Handbags 
+3) Click on five grid and Select SORT BY as "What's New"
+4) Click Price on the side menu and Enter Price Range Min as 2000 and Max as 5000
+5) Click on the first product 
+6) Get the actual price, coupon code and discount price
+7) Check the availability of the product for pincode 560043, print the expected delivery date if it is available
+8) Click on Other Informations under Product Details and Print the Customer Care details
+9) Click on ADD TO BAG and then GO TO BAG 
+10) Check the Order Total before apply coupon 
+11) Enter Coupon Code and Click Apply 
+12) Print the warning message if the product is not eligible discount
+    12(a) Verify the bill amount is matching with the discount price or not 
+13) Click on Delete and Delete the item from Bag 
+14) Close all the browsers
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		WebDriverManager.chromedriver().setup();
+		ChromeOptions options=new ChromeOptions();
+		options.addArguments("--disable-notifications");
+		ChromeDriver driver=new ChromeDriver(options);
+		driver.get("https://www.ajio.com/shop/sale");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElementByXPath("//input[@class='react-autosuggest__input react-autosuggest__input--open']").sendKeys("Bags");
+		driver.findElementByXPath("//button[@class='rilrtl-button']//span[1]").click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElementByXPath("(//label[contains(@class,'facet-linkname facet-linkname-genderfilter')])[3]").click();
+		driver.findElementByXPath("//div[@id='products']/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]").click();
+		Select dd=new Select(driver.findElementByXPath("//div[@id='products']/div[3]/div[1]/div[3]/div[1]/select[1]"));
+		dd.selectByVisibleText("What's New");
+		driver.findElementByXPath("(//span[@class='ic-unselected-facet']/following-sibling::span)[2]").click();
+		driver.findElementByXPath("//input[@placeholder='Min']").sendKeys("3000");
+		driver.findElementByXPath("//input[@placeholder='Max']").sendKeys("5000");
+		driver.findElementByXPath("//input[@id='maxPrice']/following-sibling::button[1]").click();
+		driver.findElementByXPath("//img[@src='https://assets.ajio.com/medias/sys_master/root/20210401/5HqE/6065c5497cdb8c1f147311b9/nufa_black_reptilian_pattern_tote_bag.jpg']").click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		String price = driver.findElementByXPath("//div[@class='prod-price-section ']//div[1]").getText();
+		System.out.println("Actuall price " + price);
+		
+		
+		
+		
+
+	}
+
+}
